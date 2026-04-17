@@ -1,4 +1,5 @@
 from enum import Enum
+from htmlnode import LeafNode
 
 class TextType(Enum):
 	text_plain = "plain"
@@ -19,3 +20,22 @@ class TextNode:
 
 	def __repr__ (self):
 		return  f"TextNode({self.text}, {self.text_type.value}, {self.url})"
+
+	def text_node_to_html_node(text_node):
+		if text_node is None:
+			raise Exception("Text Node can not be None")
+		if TextType == TextType.TEXT:
+			return LeafNode
+		if TextType == TextType.BOLD:
+			return LeafNode
+		if TextType == TextType.ITALIC:
+			return LeafNode
+		if TextType == TextType.CODE:
+			return LeafNode
+		if TextType == TextType.LINK:
+			return LeafNode
+		if TextType == TextType.IMAGE:
+			return LeafNode
+		
+		
+		
