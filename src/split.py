@@ -2,6 +2,7 @@ from regx import extract_markdown_images
 from regx import extract_markdown_links
 from textnode import TextNode
 from textnode import TextType
+from delimiter import split_nodes_delimiter
 
 
 
@@ -48,3 +49,13 @@ def split_nodes_link(old_nodes):
                 remaining = sections[1]
             if remaining != "":
                 new_nodes.append(TextNode(remaining, TextType.TEXT))
+    
+def text_to_textnodes(text):
+    node = [TextNode(text, TextType.TEXT)]
+    split_first = split_nodes_delimiter(node, "**", TextType.BOLD)
+    split_second = split_nodes_delimiter(split_first, "_", TextType.ITALIC)
+    split_third = split_nodes_delimiter(split_second, "`", TextType.CODE)
+    
+    images = split_nodes_image(split_third)
+    links = split_nodes_link(images)
+    return links
