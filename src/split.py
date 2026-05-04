@@ -59,3 +59,13 @@ def text_to_textnodes(text):
     images = split_nodes_image(split_third)
     links = split_nodes_link(images)
     return links
+
+def markdown_to_blocks(markdown):
+    new_list = []
+    splitter = markdown.split("\n\n")
+    for b in splitter:
+        clean = b.strip()
+        if clean != "":
+            new_list.append(clean)
+    return new_list
+                              
