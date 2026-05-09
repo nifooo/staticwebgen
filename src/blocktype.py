@@ -14,16 +14,16 @@ def block_to_block_type(text):
 	first_line = text.split("\n")[0]
 
 
-	if text.startswith("#"):
+	if first_line.startswith("#"):
 		count = 0
-		for char in text:
+		for char in first_line:
 			if char == "#":
 				count += 1
 			else:
 				break
 		if 1 <= count <= 6:
-			if count < len(text):
-				if text[count] == " ":
+			if count < len(first_line):
+				if first_line[count] == " ":
 					return BlockType.block_heading
 	if  text.startswith("```\n") and text.endswith("```"):
 		return BlockType.block_code
@@ -31,12 +31,13 @@ def block_to_block_type(text):
 		return BlockType.block_quote
 	if all(line.startswith("- ") for line in lines):
 		return BlockType.block_unordered_list
+	for i, line in enumerate(lines):
+		expected = str(i + 1) + ". "
+		if not line.startswith(expected):
+			break
 	else:
-		for i, line in enumerate(lines):
-			expected = str(i + 1) + ". "
-			if not line.startswith(expected):
-				return BlockType.block_paragraph
 		return BlockType.block_ordered_list
+	return BlockType.block_paragraph
 			
 	
 	
