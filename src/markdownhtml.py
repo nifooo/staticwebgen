@@ -1,12 +1,31 @@
 from blocktype import block_to_block_type
+from blocktype import BlockType
+from blocktype import ParentNode
 from split import markdown_to_blocks
 from split import text_to_textnodes
 from textnode import text_node_to_html_node
 
 def markdown_to_html_node(markdown):
     block_list = markdown_to_blocks(markdown)
-    for i in block_list:
-        current_block = block_to_block_type(i)
+    block_nodes = []
+
+    for block in block_list:
+        block_type = block_to_block_type(block)
+
+        if block_type == BlockType.block_heading:
+            counter = 0
+            for char in block:
+                if char == "#":
+                    counter += 1
+                else:
+                    break
+            tag = "h" + str(counter)
+            remaining_text = block[counter+1:]
+            parent = ParentNode(tag, text_to_children(remaining_text))
+            block_nodes.append(parent)
+
+    return ParentNode("div", block_nodes)
+
 
 def text_to_children(text):
     htmlnodes_list = []
@@ -15,3 +34,6 @@ def text_to_children(text):
         current_htmlnode = text_node_to_html_node(i)
         htmlnodes_list.append(current_htmlnode)
     return htmlnodes_list
+
+
+
