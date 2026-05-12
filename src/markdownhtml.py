@@ -23,6 +23,21 @@ def markdown_to_html_node(markdown):
             remaining_text = block[counter+1:]
             parent = ParentNode(tag, text_to_children(remaining_text))
             block_nodes.append(parent)
+        
+        if block_type == BlockType.block_paragraph:
+            result = block.replace("\n", " ")
+            parent = ParentNode("p", text_to_children(result))
+            block_nodes.append(parent)
+
+        if block_type == BlockType.block_quote:
+            result = block.split("\n")
+            cleaned_list = [line.lstrip(">").strip() for line in result]
+            final_result = " ".join(cleaned_list)
+            parent = ParentNode("blockquote", text_to_children(final_result))
+            block_nodes.append(parent)
+        
+
+            
 
     return ParentNode("div", block_nodes)
 
