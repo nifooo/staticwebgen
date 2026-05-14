@@ -4,6 +4,8 @@ from blocktype import ParentNode
 from split import markdown_to_blocks
 from split import text_to_textnodes
 from textnode import text_node_to_html_node
+from textnode import TextNode
+from textnode import TextType
 
 def markdown_to_html_node(markdown):
     block_list = markdown_to_blocks(markdown)
@@ -35,6 +37,15 @@ def markdown_to_html_node(markdown):
             final_result = " ".join(cleaned_list)
             parent = ParentNode("blockquote", text_to_children(final_result))
             block_nodes.append(parent)
+        
+        if block_type == BlockType.block_code:
+            result = block[4:-3]
+            text_node = TextNode(result, TextType.text_plain)
+            leaf = text_node_to_html_node(text_node)
+            code_node = ParentNode("code", [leaf])
+            pre_node = ParentNode("pre", [code_node])
+            block_nodes.append(pre_node)
+
         
 
             

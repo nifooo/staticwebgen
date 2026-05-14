@@ -24,17 +24,17 @@ class TextNode:
 	def text_node_to_html_node(text_node):
 		if text_node is None:
 			raise Exception("Text Node can not be None")
-		if TextType == TextType.TEXT:
+		if TextType == TextType.text_plain:
 			return LeafNode
-		if TextType == TextType.BOLD:
+		if TextType == TextType.text_bold:
 			return LeafNode
-		if TextType == TextType.ITALIC:
+		if TextType == TextType.text_italic:
 			return LeafNode
-		if TextType == TextType.CODE:
+		if TextType == TextType.text_code:
 			return LeafNode
-		if TextType == TextType.LINK:
+		if TextType == TextType.format_link:
 			return LeafNode
-		if TextType == TextType.IMAGE:
+		if TextType == TextType.format_image:
 			return LeafNode
 		
 		
