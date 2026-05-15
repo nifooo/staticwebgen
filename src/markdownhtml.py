@@ -45,6 +45,18 @@ def markdown_to_html_node(markdown):
             code_node = ParentNode("code", [leaf])
             pre_node = ParentNode("pre", [code_node])
             block_nodes.append(pre_node)
+        
+        if block_type == BlockType.block_unordered_list:
+            result = block.split("\n")
+            li_nodes = []
+            for line in result:
+                cleaned_line = line[2:]
+                children = text_to_children(cleaned_line)
+                code_node = ParentNode("li", children)
+                li_nodes.append(code_node)
+            final_node = ParentNode("ul", li_nodes)
+            block_nodes.append(final_node)
+    
 
         
 
