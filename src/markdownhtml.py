@@ -1,6 +1,6 @@
 from blocktype import block_to_block_type
 from blocktype import BlockType
-from blocktype import ParentNode
+from htmlnode import ParentNode
 from split import markdown_to_blocks
 from split import text_to_textnodes
 from textnode import text_node_to_html_node
@@ -26,19 +26,19 @@ def markdown_to_html_node(markdown):
             parent = ParentNode(tag, text_to_children(remaining_text))
             block_nodes.append(parent)
         
-        if block_type == BlockType.block_paragraph:
+        elif block_type == BlockType.block_paragraph:
             result = block.replace("\n", " ")
             parent = ParentNode("p", text_to_children(result))
             block_nodes.append(parent)
 
-        if block_type == BlockType.block_quote:
+        elif block_type == BlockType.block_quote:
             result = block.split("\n")
             cleaned_list = [line.lstrip(">").strip() for line in result]
             final_result = " ".join(cleaned_list)
             parent = ParentNode("blockquote", text_to_children(final_result))
             block_nodes.append(parent)
         
-        if block_type == BlockType.block_code:
+        elif block_type == BlockType.block_code:
             result = block[4:-3]
             text_node = TextNode(result, TextType.text_plain)
             leaf = text_node_to_html_node(text_node)
@@ -46,7 +46,7 @@ def markdown_to_html_node(markdown):
             pre_node = ParentNode("pre", [code_node])
             block_nodes.append(pre_node)
         
-        if block_type == BlockType.block_unordered_list:
+        elif block_type == BlockType.block_unordered_list:
             result = block.split("\n")
             li_nodes = []
             for line in result:
@@ -57,6 +57,16 @@ def markdown_to_html_node(markdown):
             final_node = ParentNode("ul", li_nodes)
             block_nodes.append(final_node)
     
+        elif block_type == BlockType.block_ordered_list:
+            result = block.split("\n")
+            li_nodes = []
+            for line in result:
+                cleaned_line = line.split(". ", 1)[1]
+                children = text_to_children(cleaned_line)
+                code_node = ParentNode("li", children)
+                li_nodes.append(code_node)
+            final_node = ParentNode("ol", li_nodes)
+            block_nodes.append(final_node)
 
         
 
