@@ -10,13 +10,12 @@ def main():
     if os.path.exists("static") == False:
         print("Static folder does not exist")
         return
-    if os.path.exists("public") == False:
-        os.mkdir("public")
-        copydir("static", "public")
-    else:
+    
+    if os.path.exists("public") == True: 
         shutil.rmtree("public")   
-        os.mkdir("public")
-        copydir("static", "public")
+    
+    os.mkdir("public")
+    copydir("static", "public")
 
 
 def copydir(source, destination):
@@ -29,6 +28,14 @@ def copydir(source, destination):
         else:
             os.mkdir(dest_path)
             copydir(source_path, dest_path)
+
+def extract_title(markdown):
+    for line in markdown.split("\n"):
+        if line.startswith("# ") :
+            title = line.lstrip("#").strip()
+            return title
+    
+    raise ValueError("No Title to extract!")
 
 if __name__ == "__main__":
     main()
