@@ -1,5 +1,7 @@
 from textnode import TextNode 
 from textnode import TextType
+from markdownhtml import markdown_to_html_node 
+from htmlnode import HTMLNode
 import os, shutil
 
 
@@ -36,6 +38,31 @@ def extract_title(markdown):
             return title
     
     raise ValueError("No Title to extract!")
+
+def generate_page(from_path, template_path, dest_path):
+    print("Generating page from " + from_path + " to " + dest_path + " using " + template_path)
+
+    with open(from_path, "r", encoding="utf-8") as f:
+        content_md = f.read()
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        content_html_template = f.read()
+   
+    
+    html_node = markdown_to_html_node(content_md)
+    convert_to_html = html_node.to_html()
+    title = extract_title(content_md)
+    page = content_html_template.replace("{{ Title }}", title)
+    final_page = page.replace("{{ Content }}", convert_to_html)
+    directory = os.path.dirname(dest_path)
+
+    if directory == 0:
+        
+
+    with open(dest_path, "w", encoding="utf-8") as f:
+        f.write(final_page)
+    
+
 
 if __name__ == "__main__":
     main()
