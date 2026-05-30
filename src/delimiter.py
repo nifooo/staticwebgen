@@ -4,7 +4,7 @@ from textnode import TextType
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     for node in old_nodes:
-        if node.text_type is not TextType.TEXT:
+        if node.text_type is not TextType.text_plain:
             new_nodes.append(node)
         else:
             text = node.text.split(delimiter)
@@ -12,6 +12,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 raise Exception("Delimiter nicht geschlossen")
             for i, teilstring in enumerate(text):
                 if i % 2 == 0:
-                    new_nodes.append(TextNode(teilstring, TextType.TEXT))
+                    new_nodes.append(TextNode(teilstring, TextType.text_plain))
                 else:
                     new_nodes.append(TextNode(teilstring, text_type))
+    return new_nodes

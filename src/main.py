@@ -6,8 +6,7 @@ import os, shutil
 
 
 def main():
-    node = TextNode("This is some anchor text", TextType.format_link, "https://www.boot.dev")
-    print(node)
+   
 
     if os.path.exists("static") == False:
         print("Static folder does not exist")
@@ -18,7 +17,7 @@ def main():
     
     os.mkdir("public")
     copydir("static", "public")
-
+    generate_page("content/index.md", "template.html", "public/index.html" )
 
 def copydir(source, destination):
     content_static = os.listdir(source)
@@ -56,8 +55,8 @@ def generate_page(from_path, template_path, dest_path):
     final_page = page.replace("{{ Content }}", convert_to_html)
     directory = os.path.dirname(dest_path)
 
-    if directory == 0:
-        
+    if directory:
+       os.makedirs(directory,  exist_ok=True) 
 
     with open(dest_path, "w", encoding="utf-8") as f:
         f.write(final_page)
