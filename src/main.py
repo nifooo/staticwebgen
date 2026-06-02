@@ -79,6 +79,9 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             
             generate_pages_recursive(full_path_content, template_path, full_path_dest)
 
+generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+
+
 if __name__ == "__main__":
     main()
     
